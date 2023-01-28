@@ -1,1 +1,1 @@
-# TraX-Both
+# TraX-Bot
