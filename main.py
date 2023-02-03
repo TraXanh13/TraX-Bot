@@ -20,8 +20,20 @@ async def on_ready():
 
 @client.command()
 @commands.is_nsfw()
-async def porn(ctx):
-    subreddit = reddit.subreddit('porn')
+async def subredd(ctx, sub="meme"):
+    print(sub)
+    subreddit = reddit.subreddit(sub)
+
+    random = subreddit.random()
+
+    await ctx.send(random.url)
+
+
+@client.command()
+@commands.is_nsfw()
+async def porn(ctx, sub="porn"):
+    print(sub)
+    subreddit = reddit.subreddit(sub)
 
     random = subreddit.random()
 
