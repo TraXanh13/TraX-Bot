@@ -1,10 +1,11 @@
 import discord
 import praw
-import config as cfg
+import configTestBot as cfg
 from discord.ext import commands
 
 intents = discord.Intents.all()
-client = commands.Bot(command_prefix=cfg.PREFIX, intents=intents)
+client = commands.Bot(command_prefix=cfg.PREFIX,
+                      intents=intents, help_command=None)
 
 reddit = praw.Reddit(client_id=cfg.REDDIT_CLIENT_ID,
                      client_secret=cfg.REDDIT_CLIENT_SECRET,
@@ -56,7 +57,42 @@ async def ping(ctx):
 
 
 @client.command()
-async def test(ctx):
-    await ctx.send(ctx)
+async def help(ctx):
+    if (ctx.message.channel.is_nsfw()):
+        await ctx.send(embed=makeEmbed("Commands:", "```\n.ping\n.subredd\n.porn\n.gay\n.help```", 0x00ff00))
+    else:
+        await ctx.send(embed=makeEmbed("Commands:", "```\n.ping\n.subredd\n.help```", 0x00ff00))
+
+
+@client.listen()
+async def on_message(message):
+    ctx = await client.get_context(message)
+    if not ctx.author.bot and "gay" in ctx.message.content:
+        await ctx.send(f'{ctx.author} said gay')
+
+
+@client.command()
+async def embed(ctx):
+    message = ctx.message.content.split("\"")[1::2]
+    title = message[0]
+    description = message[1]
+
+    if len(message) > 2 and len(message) % 2 == 0:
+        fields = {}
+        for i in range(2, len(message), 2):
+            fields[message[i]] = message[i+1]
+
+        await ctx.send(embed=makeEmbed(title=title, description=description, **fields))
+    else:
+        await ctx.send(embed=makeEmbed(title=title, description=description))
+
+
+def makeEmbed(title, description=None, color=0x00ff00, **fields):
+    embed = discord.Embed(title=title,
+                          description=description, color=color)
+    for name, value in fields.items():
+        embed.add_field(name=name, value=value, inline=False)
+    return embed
+
 
 client.run(cfg.DISCORD_TOKEN)
