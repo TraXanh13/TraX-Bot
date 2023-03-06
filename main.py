@@ -1,9 +1,10 @@
 import discord
 import praw
-import configTestBot as cfg
+import config as cfg
 from discord.ext import commands
 
 intents = discord.Intents.all()
+
 client = commands.Bot(command_prefix=cfg.PREFIX,
                       intents=intents, help_command=None)
 
