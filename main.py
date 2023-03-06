@@ -21,10 +21,13 @@ async def on_ready():
 
 
 @client.command()
-@commands.is_nsfw()
 async def subredd(ctx, sub="meme"):
-    print(sub)
     subreddit = reddit.subreddit(sub)
+
+    if (subreddit.over18 and not ctx.message.channel.is_nsfw()):
+        sfwRedd = reddit.subreddit("catswithjobs").random()
+        await ctx.send(f'{ctx.author} this subreddit is NSFW, here is a random post instead: {sfwRedd.url}')
+        return
 
     random = subreddit.random()
 
@@ -33,9 +36,8 @@ async def subredd(ctx, sub="meme"):
 
 @client.command()
 @commands.is_nsfw()
-async def porn(ctx, sub="porn"):
-    print(sub)
-    subreddit = reddit.subreddit(sub)
+async def porn(ctx):
+    subreddit = reddit.subreddit("porn")
 
     random = subreddit.random()
 
@@ -55,9 +57,9 @@ async def gay(ctx):
 @client.command()
 async def help(ctx):
     if (ctx.message.channel.is_nsfw()):
-        await ctx.send(embed=makeEmbed("Commands:", "```\n.ping\n.subredd\n.porn\n.gay\n.help```", 0x00ff00))
+        await ctx.send(embed=makeEmbed(title="Commands:", description="```\n.ping\n.subredd\n.porn\n.gay\n.help```"))
     else:
-        await ctx.send(embed=makeEmbed("Commands:", "```\n.ping\n.subredd\n.help```", 0x00ff00))
+        await ctx.send(embed=makeEmbed(title="Commands:", description="```\n.ping\n.subredd\n.help```"))
 
 
 @client.listen()
@@ -83,9 +85,13 @@ async def embed(ctx):
         await ctx.send(embed=makeEmbed(title=title, description=description))
 
 
-def makeEmbed(title, description=None, color=0x00ff00, **fields):
-    embed = discord.Embed(title=title,
-                          description=description, color=color)
+def makeEmbed(title="", url=None, description=None, color=0x00ff00, **fields):
+    if (url == None):
+        embed = discord.Embed(title=title,
+                              description=description, color=color)
+    else:
+        embed = discord.Embed(title=title, url=url,
+                              description=description, color=color)
     for name, value in fields.items():
         embed.add_field(name=name, value=value, inline=False)
     return embed
