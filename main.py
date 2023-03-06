@@ -53,11 +53,6 @@ async def gay(ctx):
 
 
 @client.command()
-async def ping(ctx):
-    await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
-
-
-@client.command()
 async def help(ctx):
     if (ctx.message.channel.is_nsfw()):
         await ctx.send(embed=makeEmbed("Commands:", "```\n.ping\n.subredd\n.porn\n.gay\n.help```", 0x00ff00))
@@ -68,7 +63,7 @@ async def help(ctx):
 @client.listen()
 async def on_message(message):
     ctx = await client.get_context(message)
-    if not ctx.author.bot and "gay" in ctx.message.content:
+    if not ctx.author.bot and "gay" in ctx.message.content and not ctx.command:
         await ctx.send(f'{ctx.author} said gay')
 
 
