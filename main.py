@@ -4,7 +4,7 @@ import configTestBot as cfg
 from discord.ext import commands
 
 intents = discord.Intents.all()
-client = commands.Bot(command_prefix='.', intents=intents)
+client = commands.Bot(command_prefix=cfg.PREFIX, intents=intents)
 
 reddit = praw.Reddit(client_id=cfg.REDDIT_CLIENT_ID,
                      client_secret=cfg.REDDIT_CLIENT_SECRET,
