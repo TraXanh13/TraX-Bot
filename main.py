@@ -4,7 +4,7 @@ import config as cfg
 from discord.ext import commands
 
 intents = discord.Intents.all()
-client = commands.Bot(command_prefix='.', intents=intents)
+client = commands.Bot(command_prefix=cfg.PREFIX, intents=intents)
 
 reddit = praw.Reddit(client_id=cfg.REDDIT_CLIENT_ID,
                      client_secret=cfg.REDDIT_CLIENT_SECRET,
@@ -53,5 +53,10 @@ async def gay(ctx):
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
+
+
+@client.command()
+async def test(ctx):
+    await ctx.send(ctx)
 
 client.run(cfg.DISCORD_TOKEN)
