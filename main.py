@@ -1,6 +1,6 @@
 import discord
 import praw
-import config as cfg
+import configTestBot as cfg
 from discord.ext import commands
 
 intents = discord.Intents.all()
