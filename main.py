@@ -1,6 +1,6 @@
 import discord
 import praw
-import config as cfg
+import configTestBot as cfg
 from discord.ext import commands
 
 intents = discord.Intents.all()
@@ -63,7 +63,7 @@ async def help(ctx):
 @client.listen()
 async def on_message(message):
     ctx = await client.get_context(message)
-    if not ctx.author.bot and "gay" in ctx.message.content and not ctx.command:
+    if not ctx.author.bot and "gay" in ctx.message.content.lower() and not ctx.command:
         await ctx.send(f'{ctx.author} said gay')
 
 
