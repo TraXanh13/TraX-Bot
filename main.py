@@ -92,6 +92,7 @@ def makeEmbed(title="", url=None, description=None, color=0x00ff00, **fields):
     else:
         embed = discord.Embed(title=title, url=url,
                               description=description, color=color)
+
     for name, value in fields.items():
         embed.add_field(name=name, value=value, inline=False)
     return embed
