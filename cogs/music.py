@@ -43,7 +43,7 @@ class music(commands.Cog):
             self.isPlaying = True
             songURL = self.musicQueue[0][0]['source']
 
-            if self.vc == None or not self.vb.is_connected():
+            if self.vc == None or not self.vc.is_connected():
                 self.vc = await self.musicQueue[0][1].connect()
 
                 if self.vc == None:
