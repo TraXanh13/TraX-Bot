@@ -1,6 +1,7 @@
 import discord
 import praw
-import config as cfg
+import youtube_dl
+import configTestBot as cfg
 from discord.ext import commands
 
 intents = discord.Intents.all()
@@ -97,5 +98,24 @@ def makeEmbed(title="", url=None, description=None, color=0x00ff00, **fields):
         embed.add_field(name=name, value=value, inline=False)
     return embed
 
+
+@client.command(pass_context=True)
+async def oof(ctx):
+    vc = ctx.message.author.voice.channel
+    ctx.send(vc)
+    await vc.connect()
+
+    # player = await YTDLSource.from_url("https://www.youtube.com/watch?v=5qap5aO4i9A", loop=client.loop)
+    # ctx.voice_client.play(player, after=lambda e: print(
+    #     'Player error: %s' % e) if e else None)
+    # await ctx.send('Now playing: {}'.format(player.title))
+
+
+@client.command(pass_context=True)
+async def leave(ctx):
+    if ctx.voice_client is not None:
+        await ctx.voice_client.disconnect()
+    else:
+        await ctx.send("Fuck you! I am not connected to a voice channel.")
 
 client.run(cfg.DISCORD_TOKEN)
